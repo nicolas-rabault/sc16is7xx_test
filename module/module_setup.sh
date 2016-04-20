@@ -2,7 +2,7 @@
 #title           :module_setup.sh
 #description     :This script compile the sc16is7xx driver and insert it.
 #source1		 :http://stackoverflow.com/questions/4356224/how-to-load-a-custom-module-at-the-boot-time-in-ubuntu
-#source2		 :https://github.com/sonelu/poppy-experiments/blob/master/Hipi/sc16is762-spi-overlay.dts
+#source2		 :https://github.com/sonelu/poppy-experiments/blob/master/Hipi/sc16is762-spi.dts
 
 sudo apt-get install device-tree-compiler
 
@@ -10,7 +10,7 @@ sudo apt-get install device-tree-compiler
 make
 
 # 2 create device tree configuration and install it
-cat <<\EOF > sc16is750-spi-overlay.dts
+cat <<\EOF > sc16is750-spi.dts
 // Definition for the SC16IS750 UART
 /dts-v1/;
 /plugin/;
@@ -80,8 +80,8 @@ cat <<\EOF > sc16is750-spi-overlay.dts
 	};
 };
 EOF
-dtc -@ -I dts -O dtb -o sc16is750-spi-overlay.dtb sc16is750-spi-overlay.dts
-sudo cp sc16is750-spi-overlay.dtb /boot/overlays/
+dtc -@ -I dts -O dtb -o sc16is750-spi.dtbo sc16is750-spi.dts
+sudo cp sc16is750-spi.dtbo /boot/overlays/
 echo "# spi => UART" | sudo tee -a /boot/config.txt
 echo "dtoverlay=sc16is750-spi,clkrate=14745600,irqpin=25" | sudo tee -a /boot/config.txt
 
